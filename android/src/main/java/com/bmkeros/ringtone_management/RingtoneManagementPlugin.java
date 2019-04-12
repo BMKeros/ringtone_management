@@ -78,29 +78,6 @@ public class RingtoneManagementPlugin implements MethodCallHandler {
         return titles;
     }
 
-    /*private ArrayList<HashMap<String, String>> getRingtonesData() {
-
-        List<Uri> uris = this.getRingtonesUri();
-
-        ArrayList<HashMap<String, String>> data = new ArrayList<>();
-
-        assert uris != null;
-
-        for (Uri currentUri : uris) {
-            HashMap<String, String> map = new HashMap<>();
-
-            currentUri.ge
-
-            map.put("scheme", currentUri.getScheme());
-            map.put("ssp", currentUri.getEncodedSchemeSpecificPart());
-            map.put("fragment", currentUri.getEncodedFragment());
-
-            data.add(map);
-        }
-
-        return data;
-    }*/
-
     private List<Ringtone> getRingtonesAvailables() {
         RingtoneManager manager = new RingtoneManager(this.context);
         manager.setType(RingtoneManager.TYPE_RINGTONE);
