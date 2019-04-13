@@ -36,12 +36,14 @@ public class RingtoneManagementPlugin implements MethodCallHandler {
     private final Context context;
     private List<Ringtone> listRingtones;
     private List<String> listTitles;
+    private int ringtoneType;
 
 
     RingtoneManagementPlugin(Context context) {
         this.context = context;
         this.listRingtones = null;
         this.listTitles = null;
+        this.ringtoneType = RingtoneManager.TYPE_RINGTONE;
     }
 
     @Override
@@ -57,10 +59,19 @@ public class RingtoneManagementPlugin implements MethodCallHandler {
             case "ringtone:get_ringtones_data":
                 result.success(this.getRingtonesData());
                 break;
+            case "ringtone:set_ringtone_type":
+                int type = (int) call.argument("type");
+                this.setRingtoneType(type);
+                result.success(null);
+                break;
             default:
                 result.notImplemented();
                 break;
         }
+    }
+
+    private void setRingtoneType(int type) {
+        this.ringtoneType = type;
     }
 
     private List<String> getRingtonesTitle() {
@@ -80,7 +91,7 @@ public class RingtoneManagementPlugin implements MethodCallHandler {
 
     private List<Ringtone> getRingtonesAvailables() {
         RingtoneManager manager = new RingtoneManager(this.context);
-        manager.setType(RingtoneManager.TYPE_RINGTONE);
+        manager.setType(this.ringtoneType);
 
         Cursor cursor = manager.getCursor();
         int total = cursor.getCount();
@@ -103,7 +114,7 @@ public class RingtoneManagementPlugin implements MethodCallHandler {
 
     private List<HashMap<String, String>> getRingtonesData() {
         RingtoneManager manager = new RingtoneManager(this.context);
-        manager.setType(RingtoneManager.TYPE_RINGTONE);
+        manager.setType(this.ringtoneType);
 
         Cursor cursor = manager.getCursor();
         int total = cursor.getCount();

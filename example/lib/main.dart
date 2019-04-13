@@ -21,9 +21,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    _manager.getRingtonesData.then((List data) {
-      setState(() {
-        _listRingtones = List.from(data);
+    _manager.setRingtoneType(RingtoneManagement.TYPE_NOTIFICATION).then((data) {
+      _manager.getRingtonesData.then((List data) {
+        setState(() {
+          _listRingtones = List.from(data);
+        });
       });
     });
   }
