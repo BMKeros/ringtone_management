@@ -11,12 +11,27 @@ class RingtoneManagement {
   static const int TYPE_NOTIFICATION = 2;
   static const int TYPE_RINGTONE = 1;
 
-  Future<List> get getRingtonesTitle async {
-    return _channel.invokeListMethod('ringtone:get_ringtones_title');
+  Future<List<String>> get getRingtonesTitle async {
+    try {
+      return await _channel
+          .invokeListMethod<String>('ringtone:get_ringtones_title');
+    } on PlatformException catch (e) {
+      throw (e.message);
+    }
   }
 
-  Future<List> get getRingtonesData async {
-    return _channel.invokeListMethod('ringtone:get_ringtones_data');
+  Future<List<Map<String, dynamic>>> get getRingtonesData async {
+    try {
+      final List<Map<dynamic, dynamic>> items =
+          await _channel.invokeListMethod<Map<dynamic, dynamic>>(
+              'ringtone:get_ringtones_data');
+
+      return items.map((Map<dynamic, dynamic> item) {
+        return Map<String, dynamic>.from(item);
+      }).toList();
+    } on PlatformException catch (e) {
+      throw (e.message);
+    }
   }
 
   Future setRingtoneType(int type) {
